@@ -13,6 +13,7 @@
     "api:smoke": "npm run build && tsx packages/api/examples/smoke.ts",
     "contracts:deploy:aegis": "node contracts/deploy-aegis.mjs",
     "mcp:dev": "tsx packages/mcp/src/server.ts",
+    "mcp:http:dev": "tsx packages/mcp/src/http.ts",
     "web:dev": "npm run dev -w @0g-mem/web",
     "web:build": "npm run build -w @0g-mem/web",
     "web:preview": "npm run preview -w @0g-mem/web",

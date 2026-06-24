@@ -77,18 +77,32 @@ curl -X POST http://127.0.0.1:8787/v1/review-plan \
 The API includes CORS headers and secure session cookies so the web dashboard can
 call it during a local demo.
 
-## 3. MCP Server
+## 3. Streamable HTTP MCP
 
 Best for LLM agents that discover tools through Model Context Protocol.
 
-Start the MCP server:
+Start the API and MCP HTTP server locally:
 
 ```bash
-npm run mcp:dev
+npm run api:dev
+npm run mcp:http:dev
 ```
 
-When `OGMEM_API_KEY` is present, MCP writes to the authenticated API. Without it,
-MCP falls back to local file memory for offline demos.
+Local development URL:
+
+```text
+http://127.0.0.1:8788/mcp
+```
+
+Hosted URL shape:
+
+```text
+https://your-0gmem-api.example.com/mcp
+```
+
+The MCP server reads the user or agent API key from `Authorization: Bearer ...`.
+In clients such as Codex, set the bearer token environment variable to
+`OGMEM_API_KEY`, then put the actual key in that environment variable.
 
 Available MCP tools:
 
@@ -101,23 +115,29 @@ aegis_review_plan
 0gmem_reflect_failure
 ```
 
-Example MCP client config:
+Example Streamable HTTP MCP client config:
 
 ```json
 {
   "mcpServers": {
-    "0g-mem": {
-      "command": "npm",
-      "args": ["run", "mcp:dev"],
-      "cwd": "C:/Documents/0G hackathon",
-      "env": {
-        "OGMEM_API_URL": "http://127.0.0.1:8787",
-        "OGMEM_API_KEY": "ogm_live_..."
-      }
+    "0gmem": {
+      "type": "streamable-http",
+      "url": "http://127.0.0.1:8788/mcp",
+      "bearerTokenEnvVar": "OGMEM_API_KEY"
     }
   }
 }
 ```
+
+Optional local stdio fallback:
+
+```bash
+OGMEM_API_KEY=ogm_live_... npm run mcp:dev
+```
+
+The stdio server can fall back to local file memory for offline demos. The
+Streamable HTTP server does not use local fallback because remote clients need
+API-key scoped workspace data.
 
 ## Pre-Execution Workflow
 

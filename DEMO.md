@@ -82,18 +82,19 @@ Point out:
 - Python agents, hosted agents, or local automation can call the HTTP adapter
 - `/profile`, `/context`, and `/review-plan` map cleanly to agent pre-action workflows
 - the SDK remains the core product
-- REST is enough for the hackathon; MCP can wrap the same primitives later
+- REST and Streamable HTTP MCP expose the same primitives to non-TypeScript agents
 
 ### 6. Show MCP Integration
 
 ```bash
-npm run mcp:dev
+npm run mcp:http:dev
 ```
 
 Point out:
 
-- LLM agents can call 0G-Mem through tools instead of importing TypeScript
+- LLM agents can call 0G-Mem through one Streamable HTTP URL instead of importing TypeScript
 - the MCP server uses the same SDK under the hood
+- clients pass the agent API key as a bearer token
 - available tools include memory, profile, context, review, outcome, and reflection
 
 ### 7. Show The Website

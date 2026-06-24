@@ -356,8 +356,8 @@ const stepSnippets: { file: string; content: React.ReactNode }[] = [
       <code>
         <span className="cm">{"# 1. Install the SDK"}</span>{"\n"}
         <span className="fn">npm</span>{" install "}<span className="str">@0g-mem/sdk</span>{"\n\n"}
-        <span className="cm">{"# 2. Or start the MCP server"}</span>{"\n"}
-        <span className="fn">npm</span>{" run "}<span className="str">mcp:dev</span>{"\n\n"}
+        <span className="cm">{"# 2. Or start the Streamable HTTP MCP server"}</span>{"\n"}
+        <span className="fn">npm</span>{" run "}<span className="str">mcp:http:dev</span>{"\n\n"}
         <span className="cm">{"# Initialize the client"}</span>{"\n"}
         <span className="kw">import</span>{" { ZeroGMemApiClient } "}<span className="kw">from</span>{" "}<span className="str">"@0g-mem/sdk"</span>{"\n"}
         <span className="kw">const</span>{" client = "}<span className="kw">new</span>{" "}<span className="fn">ZeroGMemApiClient</span>{"({\n"}
@@ -1577,7 +1577,7 @@ function ApiKeysPage({
             </div>
             <div>
               <span>MCP</span>
-              <code>env: {"{"}"OGMEM_API_KEY": "ogm_live_..."{"}"}</code>
+              <code>Bearer token env var: OGMEM_API_KEY</code>
             </div>
             <div>
               <span>REST</span>
@@ -1987,7 +1987,7 @@ function DecisionPill({ decision }: { decision: Decision }) {
 
 function connectionSnippet(method: MethodId) {
   if (method === "api") return `await fetch("http://127.0.0.1:8787/v1/memory", {\n  method: "POST",\n  headers: {\n    "Authorization": "Bearer " + process.env.OGMEM_API_KEY,\n    "Content-Type": "application/json"\n  },\n  body: JSON.stringify(memory)\n});`;
-  if (method === "mcp") return `{\n  "command": "npm",\n  "args": ["run", "mcp:dev"],\n  "env": {\n    "OGMEM_API_URL": "http://127.0.0.1:8787",\n    "OGMEM_API_KEY": "ogm_live_..."\n  }\n}`;
+  if (method === "mcp") return `{\n  "name": "0gmem",\n  "type": "streamable-http",\n  "url": "https://your-0gmem-api.example.com/mcp",\n  "bearerTokenEnvVar": "OGMEM_API_KEY"\n}`;
   return `import { ZeroGMemApiClient } from "@0g-mem/sdk";\n\nconst client = new ZeroGMemApiClient({\n  apiKey: process.env.OGMEM_API_KEY,\n  baseUrl: "http://127.0.0.1:8787"\n});\n\nawait client.memory.add(memory);\nconst context = await client.context.forTradePlan(plan);\nconst review = await client.aegis.risk.reviewPlan(plan);`;
 }
 
@@ -2009,12 +2009,10 @@ function SyntaxHighlightedCode({ method }: { method: MethodId }) {
     return (
       <code>
         {"{\n"}
-        {"  "}<span className="syn-prop">"command"</span>{": "}<span className="syn-str">"npm"</span>{",\n"}
-        {"  "}<span className="syn-prop">"args"</span>{": ["}<span className="syn-str">"run"</span>{", "}<span className="syn-str">"mcp:dev"</span>{"],\n"}
-        {"  "}<span className="syn-prop">"env"</span>{": {\n"}
-        {"    "}<span className="syn-prop">"OGMEM_API_URL"</span>{": "}<span className="syn-str">"http://127.0.0.1:8787"</span>{",\n"}
-        {"    "}<span className="syn-prop">"OGMEM_API_KEY"</span>{": "}<span className="syn-str">"ogm_live_..."</span>{"\n"}
-        {"  }\n"}
+        {"  "}<span className="syn-prop">"name"</span>{": "}<span className="syn-str">"0gmem"</span>{",\n"}
+        {"  "}<span className="syn-prop">"type"</span>{": "}<span className="syn-str">"streamable-http"</span>{",\n"}
+        {"  "}<span className="syn-prop">"url"</span>{": "}<span className="syn-str">"https://your-0gmem-api.example.com/mcp"</span>{",\n"}
+        {"  "}<span className="syn-prop">"bearerTokenEnvVar"</span>{": "}<span className="syn-str">"OGMEM_API_KEY"</span>{"\n"}
         {"}"}
       </code>
     );

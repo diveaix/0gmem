@@ -147,14 +147,14 @@ export const connectionMethods: ConnectionMethod[] = [
   },
   {
     id: "mcp",
-    title: "MCP server",
-    subtitle: "Best for Claude, Codex, and LLM agents that discover tools at runtime.",
+    title: "Streamable HTTP MCP",
+    subtitle: "Best for Codex, Claude, and LLM agents that connect through a hosted MCP URL.",
     icon: Plug,
-    command: "npm run mcp:dev",
+    command: "https://your-0gmem-api.example.com/mcp",
     bullets: [
-      "Tools for memory, context, review, outcomes, and reflection",
-      "Same SDK modules underneath",
-      "Works without changing the agent strategy loop"
+      "Paste one HTTPS URL into the MCP client",
+      "Use the agent API key as the bearer token",
+      "Expose memory, context, review, outcomes, and reflection tools"
     ]
   },
   {

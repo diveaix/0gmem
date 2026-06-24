@@ -10,7 +10,8 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "dev": "tsx src/server.ts"
+    "dev": "tsx src/server.ts",
+    "http:dev": "tsx src/http.ts"
   },
   "dependencies": {
     "@0g-mem/sdk": "file:../sdk",
@@ -23,4 +24,3 @@
     "typescript": "^5.8.2"
   }
 }
-

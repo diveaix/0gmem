@@ -92,7 +92,7 @@ Agents can use 0G-Mem through three integration paths:
 | --- | --- | --- |
 | TypeScript SDK | Node or TypeScript agents | Direct memory, profile, context, review, outcome, learning, and proof calls |
 | REST API | Python agents, workers, notebooks, hosted services | HTTP access with API-key workspace scoping |
-| MCP Server | Claude, Codex, and LLM agents | Tool calls for memory, review, outcome recording, and reflection |
+| Streamable HTTP MCP | Claude, Codex, and LLM agents | One URL plus bearer-token tool calls for memory, review, outcome recording, and reflection |
 
 ## Product Boundary
 
@@ -417,19 +417,40 @@ Routes:
 | `POST` | `/trades/outcome` | Record execution outcome |
 | `POST` | `/learning/reflect` | Create a failure lesson |
 
-## MCP Tools
+## Streamable HTTP MCP
 
-Run:
+Run the API and the Streamable HTTP MCP server:
 
 ```bash
-npm run mcp:dev
+npm run api:dev
+npm run mcp:http:dev
 ```
 
-With API-backed workspace scoping:
+Local MCP URL:
 
-```env
-OGMEM_API_URL=http://127.0.0.1:8787
-OGMEM_API_KEY=ogm_live_...
+```text
+http://127.0.0.1:8788/mcp
+```
+
+Codex, Claude, or any Streamable HTTP MCP client should use:
+
+```json
+{
+  "name": "0gmem",
+  "type": "streamable-http",
+  "url": "http://127.0.0.1:8788/mcp",
+  "bearerTokenEnvVar": "OGMEM_API_KEY"
+}
+```
+
+The bearer token is the agent API key created in the dashboard. The MCP server
+expects `Authorization: Bearer <0G-Mem API key>` and writes to that authenticated
+workspace.
+
+For public demos, host the API/MCP backend and use its HTTPS endpoint:
+
+```text
+https://your-0gmem-api.example.com/mcp
 ```
 
 Tools exposed:
@@ -541,4 +562,3 @@ packages/
 - `docs/AGENT_CONNECTIONS.md`: SDK, REST, and MCP integration guide
 - `docs/LIVE_0G_CHECKLIST.md`: live credential checklist
 - `docs/SUPERMEMORY_NOTES.md`: Supermemory inspiration notes and boundaries
-

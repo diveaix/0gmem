@@ -104,10 +104,10 @@ Run the website:
 npm run web:dev
 ```
 
-Run the MCP server:
+Run the Streamable HTTP MCP server:
 
 ```bash
-npm run mcp:dev
+npm run mcp:http:dev
 ```
 
 Run individual demo steps:
